@@ -25,7 +25,7 @@ npx pepr build
 Deploy the Operator 
 
 ```bash
-kubectl apply -f dist/pepr-module-774fab07-77fa-517c-b5f8-c682c96c20c0.yaml
+kubectl apply -f dist/pepr-module-2dbd6580-0872-584b-8311-007b87093d5a.yaml
 kubectl wait --for=condition=Ready pods -l app -n pepr-system --timeout=120s
 ```
 
