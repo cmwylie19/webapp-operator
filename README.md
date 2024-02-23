@@ -169,3 +169,81 @@ configmap/kube-root-ca.crt   1      40s
 ```
 
 When the WebApp is deleted, all of the resources that it created are also deleted.
+
+## Security
+
+
+Reject this pod running as root 
+```bash
+kubectl create -f -<<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: root-pod
+  name: root-pod
+spec:
+  containers:
+  - image: nginx
+    name: root-pod
+    resources: {}
+    securityContext:
+      runAsUser: 0
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+EOF
+```
+
+Assign default resources and security contexts
+
+```bash
+kubectl create -f -<<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: plain-pod
+  name: plain-pod
+spec:
+  containers:
+  - image: nginx
+    name: plain-pod
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+EOF
+```
+
+Deploy pod and do not override  resources
+
+```bash
+
+```bash
+kubectl create -f -<<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: resource-pod
+  name: resource-pod
+spec:
+  containers:
+  - image: nginx
+    name: resource-pod
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+EOF
+```
+
